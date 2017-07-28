@@ -1,0 +1,8 @@
+FROM golang:1.8.3-alpine as builder
+RUN apk add --update bash git
+RUN go get -u github.com/rakyll/hey
+
+FROM alpine:3.6
+COPY --from=builder /go/bin/hey /hey
+
+ENTRYPOINT ["/hey"]
