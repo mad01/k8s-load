@@ -25,8 +25,8 @@ spec:
           imagePullPolicy: Always
           name: k8s-load-hey
           args:
-            - "-c=50"
+            - "-c=100"
             - "-t=20"
-            - "-n=500"
-            - "http://k8s-load.default.svc.cluster.local/fib"
+            - "-n=1000"
+            - "http://k8s-load-service.default.svc.cluster.local/fib"
             - "&& exit 1"
