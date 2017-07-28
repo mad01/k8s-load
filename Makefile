@@ -16,11 +16,17 @@ build-multi:
 build:
 	go build -ldflags "-X main.buildVersion=$(BUILD_VERSION) -extldflags \"-static\" " -tags netgo 
 
-docker-build:
-	docker build --build-arg build=$(BUILD_VERSION) -t quay.io/mad01/$(PROJECT):$(BUILD_VERSION) --file Dockerfile-beta .
+docker-build-service:
+	docker build --build-arg build=$(BUILD_VERSION) -t quay.io/mad01/$(PROJECT):service-$(BUILD_VERSION) --file Dockerfile-service .
 
-docker-push:
-	docker push quay.io/mad01/$(PROJECT):$(BUILD_VERSION)
+docker-build-hey:
+	docker build --build-arg build=$(BUILD_VERSION) -t quay.io/mad01/$(PROJECT):hey-$(BUILD_VERSION) --file Dockerfile-hey .
+
+docker-push-service:
+	docker push quay.io/mad01/$(PROJECT):service-$(BUILD_VERSION)
+
+docker-push-hey:
+	docker push quay.io/mad01/$(PROJECT):hey-$(BUILD_VERSION)
 
 docker-login:
 	docker login -u $(QUAY_LOGIN) -p="$(QUAY_PASSWORD)" quay.io
