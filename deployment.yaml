@@ -1,0 +1,65 @@
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: k8s-load
+  name: k8s-load
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-load
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: k8s-load
+    spec:
+      containers:
+        - image: quay.io/mad01/k8s-load:v0.1
+          imagePullPolicy: Always
+          name: k8s-load
+          args:
+            - "-http=0.0.0.0:80"
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 50m
+              memory: 50M
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-load
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: k8s-load
+  type: ClusterIP
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: k8s-load
+spec:
+  maxReplicas: 25
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: k8s-load
+  targetCPUUtilizationPercentage: 50
