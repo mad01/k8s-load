@@ -6,7 +6,7 @@ metadata:
     app: k8s-load-hey
   name: k8s-load-hey
 spec:
-  replicas: 10
+  replicas: 1
   selector:
     matchLabels:
       app: k8s-load-hey
@@ -25,8 +25,8 @@ spec:
           imagePullPolicy: Always
           name: k8s-load-hey
           args:
-            - "-c=100"
+            - "-c=10"
             - "-t=20"
-            - "-n=1000"
+            - "-n=200"
             - "http://k8s-load-service.default.svc.cluster.local/fib"
             - "&& exit 0"
