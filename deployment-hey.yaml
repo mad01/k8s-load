@@ -1,0 +1,32 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: k8s-load-hey
+  name: k8s-load-hey
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-load-hey
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: k8s-load-hey
+    spec:
+      containers:
+        - image: quay.io/mad01/k8s-load:hey-v0.1
+          imagePullPolicy: Always
+          name: k8s-load-hey
+          args:
+            - "-c=50"
+            - "-t=20"
+            - "-n=500"
+            - "http://k8s-load.default.svc.cluster.local/fib"
+            - "&& exit 1"
