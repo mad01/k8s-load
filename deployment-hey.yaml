@@ -29,4 +29,4 @@ spec:
             - "-t=20"
             - "-n=1000"
             - "http://k8s-load-service.default.svc.cluster.local/fib"
-            - "&& exit 1"
+            - "&& exit 0"
