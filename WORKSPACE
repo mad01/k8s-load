@@ -5,7 +5,9 @@ git_repository(
 )
 load("@io_bazel_rules_go//go:def.bzl", "go_repositories")
 
-go_repositories()
+go_repositories(
+    go_version = "1.8.3",
+)
 
 git_repository(
     name = "io_bazel_rules_docker",
