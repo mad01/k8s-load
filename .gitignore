@@ -1,3 +1,6 @@
 k8s-load
 out
 bazel-*
+cpu.pprof
+k8s-load.test
+*.svg
